@@ -1,7 +1,9 @@
-public class Main {
+import console.ConsoleForManage;
 
+public class Main {
     public static void main(String[] args) {
-        // Поехали!
+        ConsoleForManage consoleForManage = new ConsoleForManage();
+        consoleForManage.getConsoleForManageAccounting();
     }
 }
 
