@@ -5,10 +5,13 @@ import constant.YearlyReportConstant;
 import monthly.report.MonthlyReport;
 import transaction.UnitTransaction;
 import utill.FileReader;
+import utill.Months;
 import utill.ReportMapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ConsoleManager {
     private boolean isMonthlyReportRead;
@@ -18,12 +21,12 @@ public class ConsoleManager {
     CheckerReports checkerReports = new CheckerReports();
 
     public void readMonthReports() {
-        List<List<UnitTransaction>> transactions = new ArrayList<>();
-        for (int i = 1; i < 4; i++) {
-            ArrayList<String> lines = fileReader.readFileContents("m.20210" + i + ".csv");
-            transactions.add(reportMapper.convertToMonthReport(lines));
-            MonthlyReport.setUnitTransactionsByMonth(transactions);
+        Map<String, List<UnitTransaction>> transactions = new HashMap<>();
+        for (int i = 0; i < 3; i++) {
+            ArrayList<String> lines = fileReader.readFileContents("m.20210" + (i+1) + ".csv");
+            transactions.put(Months.changeNumberToMonthName(i), reportMapper.convertToMonthReport(lines));
         }
+        MonthlyReport.setUnitTransactionsByMonth(transactions);
         System.out.println("Месячные отчеты считаны!");
         isMonthlyReportRead = true;
     }
@@ -45,36 +48,26 @@ public class ConsoleManager {
 
     public void printInfoForMonthReport() {
         if (isMonthlyReportRead && isYearlyReportRead) {
-            for (int i = 0; i < MonthlyReport.getUnitTransactionsByMonth().size(); i++) {
-                List<UnitTransaction> transactionsCurrentMonth = MonthlyReport.getUnitTransactionsByMonth().get(i);
-                switch (i) {
-                    case 0:
-                        System.out.println("Месяц - Январь");
-                        checkerReports.getMostProfitableProductInMonth(transactionsCurrentMonth);
-                        checkerReports.getMostExpensesProductInMonth(transactionsCurrentMonth);
-                        break;
-                    case 1:
-                        System.out.println("Месяц - Февраль");
-                        checkerReports.getMostProfitableProductInMonth(transactionsCurrentMonth);
-                        checkerReports.getMostExpensesProductInMonth(transactionsCurrentMonth);
-                        break;
-                    case 2:
-                        System.out.println("Месяц - Март");
-                        checkerReports.getMostProfitableProductInMonth(transactionsCurrentMonth);
-                        checkerReports.getMostExpensesProductInMonth(transactionsCurrentMonth);
-                        break;
-                }
+            Map<String, List<UnitTransaction>> transactions = MonthlyReport.getUnitTransactionsByMonth();
+            for (String monthName: transactions.keySet()) {
+                System.out.println("Месяц - " + monthName);
+                checkerReports.getMostProfitableProductInMonth(transactions.get(monthName));
+                checkerReports.getMostExpensesProductInMonth(transactions.get(monthName));
             }
         } else {
             System.out.println("Считайте сначало годовой и месячные отчеты.");
         }
     }
     public void printInfoForYearReport() {
-        List<List<UnitTransaction>> transactionsByMonth = MonthlyReport.getUnitTransactionsByMonth();
-        System.out.println("Год - 2021");
-        checkerReports.getProfitForEachMonth(YearlyReportConstant.getYearlyReports());
-        checkerReports.printAverageExpenseInYear(transactionsByMonth);
-        checkerReports.printAverageIncomeInYear(transactionsByMonth);
+        if (isMonthlyReportRead && isYearlyReportRead) {
+            Map<String, List<UnitTransaction>> transactions = MonthlyReport.getUnitTransactionsByMonth();
+            System.out.println("Год - 2021");
+            checkerReports.getProfitForEachMonth(YearlyReportConstant.getYearlyReports());
+            checkerReports.printAverageExpenseInYear(transactions);
+            checkerReports.printAverageIncomeInYear(transactions);
+        }  else {
+            System.out.println("Считайте сначало годовой и месячные отчеты.");
+        }
     }
     public void printMenu() {
         List<String> linesOfMenu = new ArrayList<>();

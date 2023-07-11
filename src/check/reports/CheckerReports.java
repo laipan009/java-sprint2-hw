@@ -3,26 +3,35 @@ package check.reports;
 import constant.YearlyReportConstant;
 import monthly.report.MonthlyReport;
 import transaction.UnitTransaction;
+import utill.Months;
 import yearly.report.YearlyReport;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CheckerReports {
     public void checkMonthlyAndYearlyReport() {
         boolean successfully = true;
-        for (int i = 0; i < MonthlyReport.getUnitTransactionsByMonth().size(); i++) {
-            List<UnitTransaction> unitTransactions = MonthlyReport.getUnitTransactionsByMonth().get(i);
+        for (String monthName : MonthlyReport.getUnitTransactionsByMonth().keySet()) {
+            List<UnitTransaction> unitTransactions = MonthlyReport.getUnitTransactionsByMonth().get(monthName);
 
             int incomeOfCurrentMonth = getSumOfAllIncomes(unitTransactions);
             int expenseOfCurrentMonth = getSumOfAllExpense(unitTransactions);
 
-            YearlyReport currentYearlyReport = YearlyReportConstant.getYearlyReports().get(i);
+            int numberMonth;
+            if (Months.changeMonthNameToNumber(monthName)==0) {
+                numberMonth = 1;
+            } else {
+                numberMonth = Months.changeMonthNameToNumber(monthName) - 1;
+            }
+
+            YearlyReport currentYearlyReport = YearlyReportConstant.getYearlyReports().get(numberMonth);
 
             if (currentYearlyReport.isExpense()) {
-                successfully = isExpensesReportsEquals(currentYearlyReport, expenseOfCurrentMonth, i);
+                successfully = isExpensesReportsEquals(currentYearlyReport, expenseOfCurrentMonth, monthName);
             } else {
-                successfully = isIncomesReportsEquals(currentYearlyReport, incomeOfCurrentMonth, i);
+                successfully = isIncomesReportsEquals(currentYearlyReport, incomeOfCurrentMonth, monthName);
             }
         }
         if (successfully) {
@@ -30,18 +39,18 @@ public class CheckerReports {
         }
     }
 
-    private boolean isExpensesReportsEquals(YearlyReport currentYearlyReport, int currentMonthExpense, int numberOfMonthInLoop) {
+    private boolean isExpensesReportsEquals(YearlyReport currentYearlyReport, int currentMonthExpense, String monthName) {
         if (currentYearlyReport.getSumPerMonth() != currentMonthExpense) {
-            System.out.println("Обнаружено несоответствие в месяце " + (numberOfMonthInLoop + 1));
+            System.out.println("Обнаружено несоответствие в месяце " + monthName);
             return false;
         } else {
             return true;
         }
     }
 
-    private boolean isIncomesReportsEquals(YearlyReport currentYearlyReport, int currentMonthIncome, int numberOfMonthInLoop) {
+    private boolean isIncomesReportsEquals(YearlyReport currentYearlyReport, int currentMonthIncome, String monthName) {
         if (currentYearlyReport.getSumPerMonth() != currentMonthIncome) {
-            System.out.println("Обнаружено несоответствие в месяце " + (numberOfMonthInLoop + 1));
+            System.out.println("Обнаружено несоответствие в месяце " + monthName);
             return false;
         } else {
             return true;
@@ -115,12 +124,12 @@ public class CheckerReports {
                 nameOfMostExpensesProduct = nameOfProduct;
             }
         }
-        System.out.println("Самый большая трата это " + nameOfMostExpensesProduct + " на сумму " + sumOfMostExpensesProduct);
+        System.out.println("Самая большая трата это " + nameOfMostExpensesProduct + " на сумму " + sumOfMostExpensesProduct);
     }
 
-    public void getProfitForEachMonth(List<YearlyReport> listYearlyReports) {
+    public void getProfitForEachMonth(List <YearlyReport> yearlyReport) {
         HashMap<Integer, Integer> yearlyReportHashMap = new HashMap<>();
-        for (YearlyReport currentYearlyReport : listYearlyReports) {
+        for (YearlyReport currentYearlyReport : yearlyReport) {
             if (currentYearlyReport.isExpense()) {
                 int currentValue = yearlyReportHashMap.getOrDefault(currentYearlyReport.getNumberOfMonth(), 0);
                 int residualCurrentAndExpenseInReport = currentValue - currentYearlyReport.getSumPerMonth();
@@ -136,10 +145,10 @@ public class CheckerReports {
         }
     }
 
-    public void printAverageExpenseInYear(List<List<UnitTransaction>> listOfListsTransactions) {
+    public void printAverageExpenseInYear(Map<String, List<UnitTransaction>> transactions) {
         int countOfAllExpenses = 0;
         int sumOfAllExpenses = 0;
-        for (List<UnitTransaction> listOfUnitTransactions : listOfListsTransactions) {
+        for (List<UnitTransaction> listOfUnitTransactions : transactions.values()) {
             sumOfAllExpenses += getSumOfAllExpense(listOfUnitTransactions);
             countOfAllExpenses += getCountOfAllExpenses(listOfUnitTransactions);
         }
@@ -157,10 +166,10 @@ public class CheckerReports {
         return countOfAllExpenses;
     }
 
-    public void printAverageIncomeInYear(List<List<UnitTransaction>> listOfArraysTransactions) {
+    public void printAverageIncomeInYear(Map<String, List<UnitTransaction>> transactions) {
         int countOfAllIncome = 0;
         int sumOfAllIncomes = 0;
-        for (List<UnitTransaction> listOfUnitTransactions : listOfArraysTransactions) {
+        for (List<UnitTransaction> listOfUnitTransactions : transactions.values()) {
             sumOfAllIncomes += getSumOfAllIncomes(listOfUnitTransactions);
             countOfAllIncome += getCountOfAllIncome(listOfUnitTransactions);
         }

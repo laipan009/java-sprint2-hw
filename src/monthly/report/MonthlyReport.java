@@ -2,17 +2,18 @@ package monthly.report;
 
 import transaction.UnitTransaction;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MonthlyReport {
-    private static List<List<UnitTransaction>> unitTransactionsByMonth = new ArrayList<>();
+    private static Map<String, List<UnitTransaction>> unitTransactionsByMonth = new HashMap<>();
 
-    public static List<List<UnitTransaction>> getUnitTransactionsByMonth() {
+    public static Map<String, List<UnitTransaction>> getUnitTransactionsByMonth() {
         return unitTransactionsByMonth;
     }
 
-    public static void setUnitTransactionsByMonth(List<List<UnitTransaction>> transactions) {
+    public static void setUnitTransactionsByMonth(Map<String, List<UnitTransaction>> transactions) {
         MonthlyReport.unitTransactionsByMonth = transactions;
     }
 }
