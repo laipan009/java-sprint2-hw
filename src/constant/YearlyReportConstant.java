@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class YearlyReportConstant {
-    private static List<YearlyReport> yearlyReportList = new ArrayList<>();
-    public static List<YearlyReport> getYearlyReportList() {
-        return yearlyReportList;
+    private static List<YearlyReport> yearlyReports = new ArrayList<>();
+    public static List<YearlyReport> getYearlyReports() {
+        return yearlyReports;
     }
-    public static void setYearlyReportList(List<YearlyReport> yearlyReportArray) {
-        YearlyReportConstant.yearlyReportList = yearlyReportArray;
+    public static void setYearlyReports(List<YearlyReport> yearlyReportArray) {
+        YearlyReportConstant.yearlyReports = yearlyReportArray;
     }
 }

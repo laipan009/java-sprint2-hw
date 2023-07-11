@@ -1,9 +1,9 @@
-import console.ConsoleForManage;
+import console.ConsoleCaller;
 
 public class Main {
     public static void main(String[] args) {
-        ConsoleForManage consoleForManage = new ConsoleForManage();
-        consoleForManage.getConsoleForManageAccounting();
+        ConsoleCaller consoleCaller = new ConsoleCaller();
+        consoleCaller.getConsole();
     }
 }
 

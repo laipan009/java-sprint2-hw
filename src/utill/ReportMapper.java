@@ -6,13 +6,12 @@ import yearly.report.YearlyReport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConverterFromListToObject {
-    private String itemName;
-    private boolean isExpense;
-    private int quantity;
-    private int unitPrice;
-
-    public List<UnitTransaction> convertFromListToObjectTransactionsForMonth(List<String> lines) {
+public class ReportMapper {
+    public List<UnitTransaction> convertToMonthReport(List<String> lines) {
+        String itemName;
+        boolean isExpense;
+        int quantity;
+        int unitPrice;
 
         List<UnitTransaction> transactionsForMonth = new ArrayList<>();
 
@@ -27,7 +26,7 @@ public class ConverterFromListToObject {
         return transactionsForMonth;
     }
 
-    public List<YearlyReport> convertFromListToObjectOfYearReport(List<String> lines) {
+    public List<YearlyReport> convertToYearReport(List<String> lines) {
         int numberOfMonth;
         int sumPerMonth;
         boolean isExpense;

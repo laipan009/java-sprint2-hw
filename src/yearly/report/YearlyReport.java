@@ -3,11 +3,11 @@ package yearly.report;
 public class YearlyReport {
     private int numberOfMonth;
     private int sumPerMonth;
-    private boolean isExpenseOrIncome;
-    public YearlyReport(int numberOfMonth, int sumPerMonth, boolean isExpenseOrIncome) {
+    private boolean isExpense;
+    public YearlyReport(int numberOfMonth, int sumPerMonth, boolean isExpense) {
         this.numberOfMonth = numberOfMonth;
         this.sumPerMonth = sumPerMonth;
-        this.isExpenseOrIncome = isExpenseOrIncome;
+        this.isExpense = isExpense;
     }
 
     public int getNumberOfMonth() {
@@ -26,12 +26,12 @@ public class YearlyReport {
         this.sumPerMonth = sumPerMonth;
     }
 
-    public boolean isExpenseOrIncome() {
-        return isExpenseOrIncome;
+    public boolean isExpense() {
+        return isExpense;
     }
 
-    public void setExpenseOrIncome(boolean expenseOrIncome) {
-        this.isExpenseOrIncome = expenseOrIncome;
+    public void setExpense(boolean expense) {
+        this.isExpense = expense;
     }
 
     public YearlyReport() {
