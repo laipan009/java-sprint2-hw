@@ -22,20 +22,24 @@ public class ConsoleManager {
 
     public void readMonthReports() {
         Map<String, List<UnitTransaction>> transactions = new HashMap<>();
-        for (int i = 0; i < 3; i++) {
-            ArrayList<String> lines = fileReader.readFileContents("m.20210" + (i+1) + ".csv");
+        for (int i = 1; i <= 3; i++) {
+            ArrayList<String> lines = fileReader.readFileContents("m.20210" + (i) + ".csv");
             transactions.put(Months.changeNumberToMonthName(i), reportMapper.convertToMonthReport(lines));
         }
         MonthlyReport.setUnitTransactionsByMonth(transactions);
         System.out.println("Месячные отчеты считаны!");
-        isMonthlyReportRead = true;
+        if (!MonthlyReport.getUnitTransactionsByMonth().isEmpty()) {
+            isMonthlyReportRead = true;
+        }
     }
 
     public void readYearReport() {
         ArrayList<String> lines = fileReader.readFileContents("y.2021.csv");
         YearlyReportConstant.setYearlyReports(reportMapper.convertToYearReport(lines));
         System.out.println("Годовой отчет считан!");
-        isYearlyReportRead = true;
+        if(!YearlyReportConstant.getYearlyReports().isEmpty()) {
+            isYearlyReportRead = true;
+        }
     }
 
     public void callCheckerReports() {

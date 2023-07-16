@@ -20,13 +20,9 @@ public class CheckerReports {
             int expenseOfCurrentMonth = getSumOfAllExpense(unitTransactions);
 
             int numberMonth;
-            if (Months.changeMonthNameToNumber(monthName)==0) {
-                numberMonth = 1;
-            } else {
-                numberMonth = Months.changeMonthNameToNumber(monthName) - 1;
-            }
+            numberMonth = Months.changeMonthNameToNumber(monthName);
 
-            YearlyReport currentYearlyReport = YearlyReportConstant.getYearlyReports().get(numberMonth);
+            YearlyReport currentYearlyReport = YearlyReportConstant.getYearlyReports().get(numberMonth-1);
 
             if (currentYearlyReport.isExpense()) {
                 successfully = isExpensesReportsEquals(currentYearlyReport, expenseOfCurrentMonth, monthName);
@@ -141,7 +137,7 @@ public class CheckerReports {
             }
         }
         for (Integer numberOfMonth : yearlyReportHashMap.keySet()) {
-            System.out.println("Прибыль по месяцу " + numberOfMonth + " составила " + yearlyReportHashMap.get(numberOfMonth));
+            System.out.println("Прибыль по месяцу " + Months.changeNumberToMonthName(numberOfMonth) + " составила " + yearlyReportHashMap.get(numberOfMonth));
         }
     }
 

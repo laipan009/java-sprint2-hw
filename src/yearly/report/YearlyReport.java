@@ -4,6 +4,7 @@ public class YearlyReport {
     private int numberOfMonth;
     private int sumPerMonth;
     private boolean isExpense;
+
     public YearlyReport(int numberOfMonth, int sumPerMonth, boolean isExpense) {
         this.numberOfMonth = numberOfMonth;
         this.sumPerMonth = sumPerMonth;

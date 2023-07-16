@@ -6,9 +6,9 @@ public class UnitTransaction {
     private int quantityOfProduct;
     private int unitPrice;
 
-    public UnitTransaction(String itemName, boolean is_expense, int quantity, int unitPrice) {
+    public UnitTransaction(String itemName, boolean isExpense, int quantity, int unitPrice) {
         this.itemName = itemName;
-        this.isExpense = is_expense;
+        this.isExpense = isExpense;
         this.quantityOfProduct = quantity;
         this.unitPrice = unitPrice;
     }

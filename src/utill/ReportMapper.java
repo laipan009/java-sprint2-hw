@@ -6,7 +6,6 @@ import yearly.report.YearlyReport;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ReportMapper {
     public List<UnitTransaction> convertToMonthReport(List<String> lines) {
         String itemName;
@@ -31,7 +30,6 @@ public class ReportMapper {
         int numberOfMonth;
         int sumPerMonth;
         boolean isExpense;
-
         List<YearlyReport> processed = new ArrayList<>();
 
         for (int i = 1; i < lines.size(); i++) {
